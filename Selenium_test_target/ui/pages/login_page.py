@@ -6,7 +6,6 @@ class LoginPage(BasePage):
     locators = target_locators.LoginPageLocators
 
     def log_in(self):
-        self.wait_spinner()
         self.click(target_locators.LoginPageLocators.LOGIN_BUTTON_LOCATOR)
 
         login_input = self.find(self.locators.LOGIN_LOCATOR)

@@ -15,7 +15,6 @@ class ProfilePage(BasePage):
         new_data_input.send_keys(new_data)
 
     def editing_contact_information(self):
-        self.wait_spinner()
         self.click(target_locators.ProfilePageLocators.GO_TO_PROFILE_BUTTON_LOCATOR)
 
         self.contact_information_input('NewName', random_number, self.locators.CHANGE_FIO_LOCATOR)
@@ -23,6 +22,6 @@ class ProfilePage(BasePage):
 
         self.click(target_locators.ProfilePageLocators.SAVE_CHANGES_BUTTON_LOCATOR)
         self.driver.refresh()
-        self.wait_spinner()
+
         assert self.find(self.locators.CHANGE_FIO_LOCATOR).get_attribute('value') == 'NewName'+str(random_number)
         assert self.find(self.locators.CHANGE_PHONE_LOCATOR).get_attribute('value') == '+79001002000'+str(random_number)
