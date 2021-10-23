@@ -6,5 +6,6 @@ class DashboardPage(BasePage):
     locators = target_locators.DashboardPageLocators()
 
     def log_out(self):
+        self.wait_spinner()
         self.click(target_locators.DashboardPageLocators.ACCOUNT_BUTTON_LOCATOR)
         self.click(target_locators.DashboardPageLocators.OUTPUT_BUTTON_LOCATOR)

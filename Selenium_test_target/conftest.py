@@ -31,4 +31,3 @@ def driver():
     browser.get(url)
     yield browser
     browser.close()
-
