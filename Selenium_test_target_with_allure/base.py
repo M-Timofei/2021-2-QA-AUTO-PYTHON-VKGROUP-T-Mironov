@@ -4,12 +4,8 @@ from _pytest.fixtures import FixtureRequest
 from ui.pages.base_page import BasePage
 from ui.pages.login_page import LoginPage
 from ui.pages.dashboard_page import DashboardPage
-
 import os
-
 from selenium.webdriver.remote.webdriver import WebDriver
-
-CLICK_RETRY = 3
 
 class BaseCase:
     authorize = True

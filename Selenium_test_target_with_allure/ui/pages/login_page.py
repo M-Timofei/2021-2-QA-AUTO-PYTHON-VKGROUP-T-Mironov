@@ -23,7 +23,7 @@ class LoginPage(BasePage):
         with allure.step('Check error'):
             self.wait().until(EC.url_contains('error_code'))
             elem = self.find(target_locators.LoginPageLocators.INVALID_PASSWORD_LOCATOR)
-            assert elem.is_displayed() is True
+            assert elem.is_displayed()
 
     def check_invalid_login(self):
         self.logger.info('Input invalid login and valid password')
@@ -33,4 +33,4 @@ class LoginPage(BasePage):
         with allure.step('Check error'):
             self.wait().until(EC.visibility_of_element_located(target_locators.LoginPageLocators.INVALID_LOGIN_LOCATOR))
             elem = self.find(target_locators.LoginPageLocators.INVALID_LOGIN_LOCATOR)
-        assert elem.is_displayed() is True
+        assert elem.is_displayed()

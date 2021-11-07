@@ -30,21 +30,17 @@ class CampaignPage(BasePage):
         return img_name
 
     def upload_carousel(self, image_path):
-        k = 0
-        for locator in ((target_locators.CampaignPageLocators.CAROUSEL_1_LOCATOR, target_locators.CampaignPageLocators.LINK_FOR_SLIDE_1_LOCATOR, target_locators.CampaignPageLocators.HEADING_FOR_SLID_1_LOCATOR),
-                        (target_locators.CampaignPageLocators.CAROUSEL_2_LOCATOR, target_locators.CampaignPageLocators.LINK_FOR_SLIDE_2_LOCATOR, target_locators.CampaignPageLocators.HEADING_FOR_SLID_2_LOCATOR),
-                        (target_locators.CampaignPageLocators.CAROUSEL_3_LOCATOR, target_locators.CampaignPageLocators.LINK_FOR_SLIDE_3_LOCATOR, target_locators.CampaignPageLocators.HEADING_FOR_SLID_3_LOCATOR)):
-            self.click(locator[0])
-            k += 1
-            img_name = self.create_img(image_path, 600, k)
-            input_field = self.find(target_locators.CampaignPageLocators.UPLOAD_IMG_600_LOCATOR)
+        for slide_number in range(1,4):
+            self.click(target_locators.CampaignPageLocators.NUMBER_CAROUSEL_LOCATOR(slide_number))
+            img_name = self.create_img(image_path, 600, slide_number)
+            input_field = self.find(target_locators.CampaignPageLocators.UPLOAD_IMG_LOCATOR(600))
             input_field.send_keys(os.path.join(image_path, img_name))
             self.logger.debug(f'Image {img_name} is uploaded')
-            self.input_data(locator[1], 'vk.com')
-            self.input_data(locator[2], 'Slide'+str(k))
+            self.input_data(target_locators.CampaignPageLocators.LINK_FOR_SLIDE_LOCATOR(slide_number), 'vk.com')
+            self.input_data(target_locators.CampaignPageLocators.HEADING_FOR_SLID_LOCATOR(slide_number), 'Slide'+str(slide_number))
 
         img_name = self.create_img(image_path, 256, k=0)
-        input_field = self.find(target_locators.CampaignPageLocators.UPLOAD_IMG_256_LOCATOR)
+        input_field = self.find(target_locators.CampaignPageLocators.UPLOAD_IMG_LOCATOR(256))
         input_field.send_keys(os.path.join(image_path, img_name))
         self.logger.debug(f'Image {img_name} is uploaded')
 
@@ -68,7 +64,7 @@ class CampaignPage(BasePage):
 
         self.logger.info('Saving project')
         with allure.step('Saving project'):
-            # По пречини того, что изображения могут не сразу подгрузиться, ретраем кнопку "Сохранить проект" через wait
+            # По причини того, что изображения могут не сразу подгрузиться, ретраем кнопку "Сохранить проект" через wait
             wait(self.check_for_create_project, error=AssertionError, timeout=60, check=True, spinner=False,
                  locator_for_click=target_locators.CampaignPageLocators.SAVE_PROJECT_LOCATOR,
                  locator_for_check=target_locators.CampaignPageLocators.PREVIEW_COMPANY_LOCATOR)
@@ -109,13 +105,13 @@ class CampaignPage(BasePage):
         self.driver.refresh()
         self.wait_spinner()
         try:
-            self.wait().until(EC.element_to_be_clickable(target_locators.CampaignPageLocators.EMPTY_NAME_OF_COMPANY_LOCATOR))
+            self.wait(timeout = 10).until(EC.element_to_be_clickable(target_locators.CampaignPageLocators.EMPTY_NAME_OF_COMPANY_LOCATOR))
             if name_of_company not in self.driver.page_source:
                 return True
             else:
                 return False
         except:
-            self.wait().until(EC.element_to_be_clickable(target_locators.CampaignPageLocators.NAME_OF_COMPANY_LOCATOR))
+            self.wait(timeout = 10).until(EC.element_to_be_clickable(target_locators.CampaignPageLocators.NAME_OF_COMPANY_LOCATOR))
             if name_of_company not in self.driver.page_source:
                 return True
             else:

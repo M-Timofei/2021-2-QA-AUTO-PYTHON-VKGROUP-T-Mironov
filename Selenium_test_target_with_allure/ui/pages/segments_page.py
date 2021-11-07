@@ -31,11 +31,12 @@ class SegmentsPage(BasePage):
     def delete_segment(self, SEGMENT_NAME):
         self.logger.info('Delete segment')
         with allure.step('Delete segment'):
-            segment = self.find((By.XPATH, f'//*[@title= "{SEGMENT_NAME}"]/parent::div/parent::div'))
+            segment = self.find((By.XPATH, f'//a[@title= "{SEGMENT_NAME}"]/parent::div/parent::div'))
             number = segment.get_attribute("data-test").split(' ')[1]
-            self.click((By.XPATH, f'//*[contains(@data-test, "{number}")]/*[contains(@class, "cells-module-removeCell")]'))
+            self.click((By.XPATH, f'//div[contains(@data-test, "{number}")]/span'))
             self.click(target_locators.SegmentsPageLocators.DELETE_BUTTON_LOCATOR)
             self.wait().until(EC.invisibility_of_element(target_locators.SegmentsPageLocators.DELETE_WINDOW_LOCATOR))
+
 
     def check_create_segment(self):
         SEGMENT_NAME = "Сегмент от " + str(datetime.now()) + ' №' + str(randint(1, 1000))
