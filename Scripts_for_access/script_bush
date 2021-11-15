@@ -1,0 +1,15 @@
+> data_bash.txt
+echo "Общее количество запросов:" >> data_bash.txt
+cat access.log | wc -l >> data_bash.txt
+echo -en '\n' >> data_bash.txt
+echo "Общее количество запросов по типу:" >> data_bash.txt
+cat access.log | awk '{print $6}' |sed 's/"//'| sort | uniq -c | sort -nr | awk '{print $2,$1}'>> data_bash.txt
+echo -en '\n' >> data_bash.txt
+echo "Топ 10 самых частых запросов:" >> data_bash.txt
+cat access.log | awk '{print $7}' | sort | uniq -c | sort -nr | head -10 | awk '{print $2,$1}' | column -t  >> data_bash.txt
+echo -en '\n' >> data_bash.txt
+echo "Топ 5 самых больших по размеру запросов, которые завершились клиентской (4ХХ) ошибкой:" >> data_bash.txt
+cat access.log | awk '$9 ~ /4../' | awk '{print $7,$9,$10,$1}' | sort -k3 -nr | head -5 >> data_bash.txt
+echo -en '\n' >> data_bash.txt
+echo "Топ 5 пользователей по количеству запросов, которые завершились серверной (5ХХ) ошибкой:" >> data_bash.txt
+cat access.log | awk '$9 ~ /5../' | awk '{print $1}' | sort | uniq -c | sort -k1 -nr | head -5 | awk '{print $2,$1}' | column -t >> data_bash.txt
