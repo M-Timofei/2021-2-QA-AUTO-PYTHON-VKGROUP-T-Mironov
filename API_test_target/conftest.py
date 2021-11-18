@@ -1,14 +1,16 @@
-import pytest
 import os
 import shutil
+
+from api import urls
 from api.client import ApiClient
+from api.fixtures import *
 
 @pytest.fixture(scope='session')
 def cookies(api_client):
     api_client.post_login()
     cookies_list = []
     for cookie in api_client.session.cookies:
-        cookie_dict = {'domain': cookie.domain,
+        cookie_dict = {'domain': '',
                        'name': cookie.name,
                        'value': cookie.value,
                        'secure': cookie.secure
@@ -18,11 +20,7 @@ def cookies(api_client):
 
 @pytest.fixture(scope='session')
 def api_client():
-    return ApiClient('mironov.timofei@mail.ru', 'MyStrongPassword1')
-
-@pytest.fixture(scope='session')
-def config():
-    pass
+    return ApiClient(urls.URL_BASE, 'mironov.timofei@mail.ru', 'MyStrongPassword1')
 
 def pytest_configure(config):
     repo_root = os.path.abspath(os.path.join(__file__, os.path.pardir))

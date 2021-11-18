@@ -1,19 +1,23 @@
 import pytest
 from base import BaseCase
 
-class TestCreateSegment(BaseCase):
-    # если check_delete = False - проверяем создание компании, иначе проверяем, что компания удалена
-    check_delete = False
+class TestSegment(BaseCase):
 
     @pytest.mark.API
     def test_create_segment(self):
-        self.create_segment(self.check_delete)
+        segment_id, segment_name = self.create_segment()
+        self.check_segment_created(segment_id, segment_name)
+        self.delete_segment(segment_id)
 
-class TestDeleteSegment(TestCreateSegment):
-    check_delete = True
+    @pytest.mark.API
+    def test_delete_segment(self):
+        segment_id, segment_name = self.create_segment()
+        self.delete_segment(segment_id)
+        self.check_segment_deleted(segment_id, segment_name)
 
 class TestCreateCompany(BaseCase):
 
     @pytest.mark.API
-    def test_create_company(self, image_path):
-        self.create_company(image_path)
+    def test_create_company(self, create_company_fixture):
+        company_id, company_name = create_company_fixture
+        self.check_company(company_id, company_name)
