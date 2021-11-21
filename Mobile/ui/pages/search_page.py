@@ -15,7 +15,7 @@ class SearchPage(BasePage):
 
     def go_to_menu_page(self):
         self.click_for_android(self.locators.MENU_BUTTON)
-        return MenuPage(self.driver)
+        return MenuPage(self.driver, self.config)
 
     def check_article_on_display(self):
         try:
@@ -44,14 +44,14 @@ class SearchPage(BasePage):
         wait(self.check_article_on_display, error=AssertionError, timeout=30, check=True)
         self.swipe_left_to_element(self.locators.LOW_PANEL, self.locators.POPULATION_LOCATOR, 5)
         self.click_for_android(self.locators.POPULATION_LOCATOR)
-        # ждем, когда ответя появится на экране
+        # ждем, когда ответ появится на экране
         wait(self.wait_result_on_display, error=AssertionError, timeout=30, check=True, locator=self.locators.CARD_TITLE, text = 'млн')
         total_population = self.find(self.locators.CARD_TITLE).get_attribute("text")
         assert total_population == '146 млн.'
 
     def check_calculator_result(self):
         self.input_text('3+2')
-        # ждем, когда ответя появится на экране
+        # ждем, когда ответ появится на экране
         wait(self.wait_result_on_display, error=AssertionError, timeout=30, check=True, locator = self.locators.RESULT_LOCATOR, text = '5')
         result = self.find_everything(self.locators.RESULT_LOCATOR)[-1].get_attribute("text")
         assert result == '5'

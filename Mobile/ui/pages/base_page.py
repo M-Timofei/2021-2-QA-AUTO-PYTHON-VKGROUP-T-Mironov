@@ -8,8 +8,9 @@ class PageNotLoadedException(Exception):
 
 class BasePage(object):
 
-    def __init__(self, driver):
+    def __init__(self, driver, config):
         self.driver = driver
+        self.config = config
 
     CLICK_RETRY = 3
     BASE_TIMEOUT = 5

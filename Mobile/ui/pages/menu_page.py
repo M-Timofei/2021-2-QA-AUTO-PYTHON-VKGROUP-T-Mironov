@@ -9,9 +9,9 @@ class MenuPage(BasePage):
     def go_to_news(self):
         self.swipe_up_to_element(self.locators.NEWS, 5)
         self.click_for_android(self.locators.NEWS)
-        return NewsPage(self.driver)
+        return NewsPage(self.driver, self.config)
 
     def go_to_about(self):
         self.swipe_up_to_element(self.locators.ABOUT_BUTTON, 5)
         self.click_for_android(self.locators.ABOUT_BUTTON)
-        return AboutPage(self.driver)
+        return AboutPage(self.driver, self.config)
