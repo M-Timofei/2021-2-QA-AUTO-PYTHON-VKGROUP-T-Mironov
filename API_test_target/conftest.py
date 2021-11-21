@@ -6,19 +6,6 @@ from api.client import ApiClient
 from api.fixtures import *
 
 @pytest.fixture(scope='session')
-def cookies(api_client):
-    api_client.post_login()
-    cookies_list = []
-    for cookie in api_client.session.cookies:
-        cookie_dict = {'domain': '',
-                       'name': cookie.name,
-                       'value': cookie.value,
-                       'secure': cookie.secure
-                       }
-        cookies_list.append(cookie_dict)
-    return cookies_list
-
-@pytest.fixture(scope='session')
 def api_client():
     return ApiClient(urls.URL_BASE, 'mironov.timofei@mail.ru', 'MyStrongPassword1')
 

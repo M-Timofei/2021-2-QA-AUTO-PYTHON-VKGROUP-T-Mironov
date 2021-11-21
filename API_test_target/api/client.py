@@ -7,7 +7,6 @@ from api import urls
 from api.exceptions import ResponseStatusCodeException
 from utils.images import CreateImg
 
-
 class ApiClient:
 
     def __init__(self, base_url, user, password):
@@ -30,15 +29,14 @@ class ApiClient:
         segment_id = response.json()['id']
         return segment_id
 
-    def get_segment_data(self):
+    def get_segment_ids(self):
         params = {
             'limit': 100
         }
         segments = self._request('GET', urls.URL_NEW_SEGMENT, params=params)
         items = [i for i in segments.json()['items']]
         ids = [i['id'] for i in items]
-        names = [i['name'] for i in items]
-        return items, ids, names
+        return ids
 
     def post_delete_segment(self, segment_id):
         self._request('POST', urls.URL_DELETE_SEGMENT, headers=self.header_csrf, data=data.data_delete_segment(segment_id))
@@ -64,15 +62,14 @@ class ApiClient:
         company_id = response.json()['id']
         return company_id
 
-    def get_company_data(self):
+    def get_company_ids(self):
         response = self._request('GET', 'https://target.my.com/profile/contacts')
         answer = response.content.decode('utf-8')
         user_id = int(answer.split('data-ga-userid="')[1].split('"')[0])
         companies = self._request('GET', urls.URL_COMPANY, params=data.data_check_company(user_id))
         items = [i for i in companies.json()['items']]
-        names = [i['name'] for i in items]
         ids = [i['id'] for i in items]
-        return items, names, ids
+        return ids
 
     def post_delete_company(self, company_id):
 

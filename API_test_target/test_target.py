@@ -5,19 +5,22 @@ class TestSegment(BaseCase):
 
     @pytest.mark.API
     def test_create_segment(self):
-        segment_id, segment_name = self.create_segment()
-        self.check_segment_created(segment_id, segment_name)
+        segment_id = self.create_segment()
+        ids = self.api_client.get_segment_ids()
+        assert segment_id in ids
         self.delete_segment(segment_id)
 
     @pytest.mark.API
     def test_delete_segment(self):
-        segment_id, segment_name = self.create_segment()
+        segment_id = self.create_segment()
         self.delete_segment(segment_id)
-        self.check_segment_deleted(segment_id, segment_name)
+        ids = self.api_client.get_segment_ids()
+        assert (segment_id in ids) is False
 
 class TestCreateCompany(BaseCase):
 
     @pytest.mark.API
     def test_create_company(self, create_company_fixture):
-        company_id, company_name = create_company_fixture
-        self.check_company(company_id, company_name)
+        company_id = create_company_fixture
+        ids = self.api_client.get_company_ids()
+        assert company_id in ids
