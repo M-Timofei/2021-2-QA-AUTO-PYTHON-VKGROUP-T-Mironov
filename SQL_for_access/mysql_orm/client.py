@@ -1,7 +1,5 @@
 import sqlalchemy
-from sqlalchemy import inspect
 from sqlalchemy.orm import sessionmaker
-
 from models.model import Base
 
 class MysqlORMClient:
@@ -21,12 +19,12 @@ class MysqlORMClient:
     def connect(self, db_created=True):
         db = self.db_name if db_created else ''
         url = f'mysql+pymysql://{self.user}:{self.password}@{self.host}:{self.port}/{db}'
-
         self.engine = sqlalchemy.create_engine(url, encoding='utf8')
         self.connection = self.engine.connect()
 
         sm = sessionmaker(bind=self.connection.engine)
         self.session = sm()
+        return self.engine
 
     def recreate_db(self):
         self.connect(db_created=False)
@@ -42,22 +40,6 @@ class MysqlORMClient:
         if fetch:
             return res.fetchall()
 
-    def create_total_requests(self):
-        if not inspect(self.engine).has_table('Total_requests'):
-            Base.metadata.tables['Total_requests'].create(self.engine)
-
-    def create_requests_by_type(self):
-        if not inspect(self.engine).has_table('Requests_by_type'):
-            Base.metadata.tables['Requests_by_type'].create(self.engine)
-
-    def create_top_10_URL(self):
-        if not inspect(self.engine).has_table('Top_10_URL'):
-            Base.metadata.tables['Top_10_URL'].create(self.engine)
-
-    def create_top_5_4XX(self):
-        if not inspect(self.engine).has_table('Top_5_4XX_errors'):
-            Base.metadata.tables['Top_5_4XX_errors'].create(self.engine)
-
-    def create_top_5_5XX(self):
-        if not inspect(self.engine).has_table('Top_5_5XX_errors'):
-            Base.metadata.tables['Top_5_5XX_errors'].create(self.engine)
+    def create_table(self, table_name):
+        if not self.connect().has_table(table_name):
+            Base.metadata.tables[table_name].create(self.connect())

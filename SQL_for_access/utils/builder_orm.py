@@ -1,4 +1,4 @@
-from models.model import TotalRequests, RequestsByType, Top10URL, Top5_4XX, Top5_5XX
+from models.model import TotalRequests, RequestsByType, TopURL, Top_4XX, Top_5XX
 
 class MysqlORMBuilder:
 
@@ -32,22 +32,22 @@ class MysqlORMBuilder:
         self.client.session.commit()
         return requestsbytype
 
-    def create_top_10_URL(self, URL=None, Count=None):
+    def create_top_URL(self, URL=None, Count=None):
         if URL is None:
             URL = 'No data'
         if Count is None:
             Count = 0
 
-        top10url = Top10URL(
+        topurl = TopURL(
             URL=URL,
-            Count=Count,
+            Count=Count
         )
 
-        self.client.session.add(top10url)
+        self.client.session.add(topurl)
         self.client.session.commit()
-        return top10url
+        return topurl
 
-    def create_top_5_4XX(self, URL=None, Response=None, Size=None, IP=None):
+    def create_top_4XX(self, URL=None, Response=None, Size=None, IP=None):
         if URL is None:
             URL = 'No data'
         if Response is None:
@@ -57,28 +57,28 @@ class MysqlORMBuilder:
         if IP is None:
             IP='No data'
 
-        top5_4xx = Top5_4XX(
+        top_4xx = Top_4XX(
             URL=URL,
             Response=Response,
             Size=Size,
             IP=IP
         )
 
-        self.client.session.add(top5_4xx)
+        self.client.session.add(top_4xx)
         self.client.session.commit()
-        return top5_4xx
+        return top_4xx
 
-    def create_top_5_5XX(self, IP=None, Count=None):
+    def create_top_5XX(self, IP=None, Count=None):
         if IP is None:
             IP = 'No data'
         if Count is None:
             Count = 0
 
-        top5_5xx = Top5_5XX(
+        top_5xx = Top_5XX(
             IP=IP,
             Count=Count,
         )
 
-        self.client.session.add(top5_5xx)
+        self.client.session.add(top_5xx)
         self.client.session.commit()
-        return top5_5xx
+        return top_5xx
