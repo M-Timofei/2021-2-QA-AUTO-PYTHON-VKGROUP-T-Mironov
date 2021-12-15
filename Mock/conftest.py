@@ -37,7 +37,6 @@ def pytest_configure(config):
             shutil.rmtree(std_dir)
         os.makedirs(requests_dir)
         os.makedirs(std_dir)
-        config.log_temp_dir = requests_dir
 
         mock_stdout = open(os.path.join(std_dir, 'mock_stdout.txt'), 'w')
         config.mock_stderr = open(os.path.join(std_dir, 'mock_stderr.txt'), 'w')
@@ -54,13 +53,14 @@ def pytest_configure(config):
         sys.stdout = sys.__stdout__
         mock_stdout.close()
 
+    config.log_temp_dir = requests_dir
+
 def pytest_unconfigure(config):
     requests.get(f'http://{settings.MOCK_HOST}:{settings.MOCK_PORT}/shutdown')
 
     sys.stderr.close()
     sys.stderr = sys.__stderr__
     config.mock_stderr.close()
-
 
 @pytest.fixture(scope='function')
 def logger(requests_dir):
