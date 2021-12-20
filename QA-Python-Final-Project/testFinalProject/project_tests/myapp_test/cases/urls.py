@@ -1,0 +1,7 @@
+BASE_URL = "http://myapp_proxy:4040/"
+REGISTRATION_URL = "http://myapp_proxy:4040/reg"
+MAIN_PAGE = "http://myapp_proxy:4040/main/"
+LOGIN_PAGE = "http://myapp_proxy:4040/login"
+WELCOME_PAGE = "http://myapp_proxy:4040/welcome/"
+INVALID_PAGE = "http://myapp_proxy:4040/invalid_something"
+MOCK_ADD_USER = f"http://my_vk_mock:5000/"
