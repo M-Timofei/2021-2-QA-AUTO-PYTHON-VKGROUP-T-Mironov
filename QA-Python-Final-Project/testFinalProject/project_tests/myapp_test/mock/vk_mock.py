@@ -30,7 +30,7 @@ def add_user():
 @app.route('/vk_id/<username>', methods=['GET'])
 def get_vk_id(username):
     if user_id := user_data_id.get(username):
-        data = {'vk_id': user_id}
+        data = {'vk_id': str(user_id)}
         return jsonify(data), 200
     else:
         return jsonify({}), 404
