@@ -19,8 +19,8 @@ pipeline {
         stage("Testing myapp") {
             steps {
                 withEnv(["PATH+EXTRA=$DOCKER_COMPOSE"]) {
-                    sh "cd $WORKSPACE/testFinalProject/QA-Python-Final-Project"
-                    dir ("$WORKSPACE/testFinalProject/QA-Python-Final-Project") {
+                    sh "cd $WORKSPACE/QA-Python-Final-Project/testFinalProject"
+                    dir ("$WORKSPACE/QA-Python-Final-Project/testFinalProject") {
                         sh "docker-compose up --abort-on-container-exit"
                     }
                 }
@@ -36,8 +36,8 @@ pipeline {
             ])
             script {
                 withEnv(["PATH+EXTRA=$DOCKER_COMPOSE"]) {
-                    sh "cd $WORKSPACE/testFinalProject/QA-Python-Final-Project"
-                    dir("$WORKSPACE/testFinalProject/QA-Python-Final-Project") {
+                    sh "cd $WORKSPACE/QA-Python-Final-Project/testFinalProject"
+                    dir("$WORKSPACE/QA-Python-Final-Project/testFinalProject") {
                         sh 'docker-compose down'
                     }
                 }
