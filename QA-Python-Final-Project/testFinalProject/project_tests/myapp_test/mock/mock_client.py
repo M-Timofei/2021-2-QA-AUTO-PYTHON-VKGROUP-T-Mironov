@@ -9,6 +9,6 @@ class MockClient:
         requests.post(urljoin(urls.MOCK_ADD_USER, '/vk_id/add_user'),
         json={
             'username': username,
-            'vk_id': vk_id
+            'vk_id': str(vk_id)
             }
                       )
