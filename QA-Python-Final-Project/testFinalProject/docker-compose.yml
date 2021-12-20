@@ -89,7 +89,7 @@ services:
     ports:
       - "4444:4444"
     volumes:
-      - "${WORKSPACE}/testFinalProject/selenoid:/etc/selenoid"
+      - "${WORKSPACE}/QA-Python-Final-Project/testFinalProject/selenoid:/etc/selenoid"
       - /var/run/docker.sock:/var/run/docker.sock
     command: ["-conf", "/etc/selenoid/browsers.json",  "-container-network", "selenoid", "-timeout", "5m"]
 
